@@ -1,5 +1,17 @@
 name: Deploy
-on: workflow_dispatch
+# on: workflow_dispatch
+on: 
+  push:
+    branches:
+      - main
+    paths-ignore:
+        - .github/workflows/*
+        - README.md  
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+  
 jobs:
     test:
          runs-on: ubuntu-latest
