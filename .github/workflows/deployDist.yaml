@@ -1,5 +1,5 @@
 name: Deploy
-on: [push,workflow_dispatch]
+on: workflow_dispatch
 jobs:
     test:
          runs-on: ubuntu-latest
@@ -16,6 +16,11 @@ jobs:
                    node-version: 20
              - name: Check Version
                run: node --version
+             - name: Cache Node Modules
+               uses: actions/cache@v2
+               with:
+                 path: ~/.npm
+                 key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}     
              - name: Install Dependencies
                run: npm ci  
              - name: Run Tests
@@ -32,6 +37,11 @@ jobs:
                    node-version: 20
              - name: Check Version
                run: node --version
+             - name: Cache Node Modules
+               uses: actions/cache@v2
+               with:
+                 path: ~/.npm
+                 key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}     
              - name: Install Dependencies
                run: npm ci  
              - name: Build App
