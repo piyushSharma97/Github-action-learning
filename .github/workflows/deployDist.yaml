@@ -36,8 +36,8 @@ jobs:
              - name: Install Dependencies
                run: npm ci  
              - name: Run Tests
-               run: npm run test        
-    deploy:
+               run: npm run test   
+    build:
          needs: test 
          runs-on: ubuntu-latest
          steps:
@@ -51,12 +51,26 @@ jobs:
                run: node --version
              - name: Cache Node Modules
                uses: actions/cache@v4
-               with:
+               with:   
                  path: ~/.npm
-                 key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}     
+                 key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}    
              - name: Install Dependencies
-               run: npm ci  
+               run: npm ci
              - name: Build App
-               run: npm run build
+               run: npm run build    
+             - name: Upload Build Artifacts
+               uses: actions/upload-artifact@v4
+               with:
+                 name: dist-file    
+                 paths: dist    
+    deploy:
+         needs: test 
+         runs-on: ubuntu-latest
+         steps:
+             - name:  Download Build Artifacts
+               uses: actions/download-artifact@v4
+               with:
+                 name: dist-file
+                 paths: dist 
              - name: Deploy to Server
                run: echo "Deploying to server..." # Replace with actual deployment command     
