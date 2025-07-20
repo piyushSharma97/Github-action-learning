@@ -5,7 +5,7 @@ jobs:
          runs-on: ubuntu-latest
          steps:
              - name: Get Code
-               uses: actions/checkout@v2
+               uses: actions/checkout@v4
                #    run: |
                #    echo "Deploying code..."
                #    echo "${{toJson(github)}}"
@@ -17,7 +17,7 @@ jobs:
              - name: Check Version
                run: node --version
              - name: Cache Node Modules
-               uses: actions/cache@v2
+               uses: actions/cache@v4
                with:
                  path: ~/.npm
                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}     
@@ -30,7 +30,7 @@ jobs:
          runs-on: ubuntu-latest
          steps:
              - name: Get Code
-               uses: actions/checkout@v2
+               uses: actions/checkout@v4
              - name: Install Node 20
                uses: actions/setup-node@v4
                with:
