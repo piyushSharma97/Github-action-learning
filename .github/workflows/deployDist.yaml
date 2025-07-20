@@ -1,7 +1,7 @@
 name: Deploy
 on: [push,workflow_dispatch]
 jobs:
-    deploy:
+    test:
          runs-on: ubuntu-latest
          steps:
              - name: Get Code
@@ -20,5 +20,20 @@ jobs:
                run: npm ci  
              - name: Run Tests
                run: npm run test        
-
-              
+    deploy:
+         runs-on: ubuntu-latest
+         steps:
+             - name: Get Code
+               uses: actions/checkout@v2
+             - name: Install Node 20
+               uses: actions/setup-node@v4
+               with:
+                   node-version: 20
+             - name: Check Version
+               run: node --version
+             - name: Install Dependencies
+               run: npm ci  
+             - name: Build App
+               run: npm run build
+             - name: Deploy to Server
+               run: echo "Deploying to server..." # Replace with actual deployment command     
